@@ -6,6 +6,7 @@ import type { TableRowData } from './components/Table';
 import TableComponent from './components/Table';
 import { useAssetStore } from './stores/assetStore';
 import { useTdexStore } from './stores/tdexStore';
+import { sats2Fractional } from './utils/helpers';
 
 const { Title } = Typography;
 
@@ -41,12 +42,12 @@ export const App = (): JSX.Element => {
           name: market.provider.name,
           endpoint: market.provider.endpoint,
         },
-        baseAmount: market.baseAmount ?? 'N/A',
-        quoteAmount: market.quoteAmount ?? 'N/A',
-        basisPoint: market.basisPoint ?? 'N/A',
+        baseAmount: sats2Fractional(Number(market.baseAmount), assets[market.baseAsset]?.precision ?? 8),
+        quoteAmount: sats2Fractional(Number(market.quoteAmount), assets[market.quoteAsset]?.precision ?? 8),
+        basisPoint: market.basisPoint ? Number(market.basisPoint) / 100 : undefined,
         fixed: {
-          baseFee: market.fixed?.baseFee ?? 'N/A',
-          quoteFee: market.fixed?.quoteFee ?? 'N/A',
+          baseFee: sats2Fractional(Number(market.fixed?.baseFee), assets[market.baseAsset]?.precision ?? 8),
+          quoteFee: sats2Fractional(Number(market.fixed?.quoteFee), assets[market.quoteAsset]?.precision ?? 8),
         },
       }));
       setTableData(data);

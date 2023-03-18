@@ -1,4 +1,4 @@
-import { Col, Row, Table } from 'antd';
+import { Col, Empty, Row, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React from 'react';
 
@@ -9,12 +9,12 @@ export interface TableRowData {
     name: string;
     endpoint: string;
   };
-  baseAmount: string;
-  quoteAmount: string;
-  basisPoint: string;
+  baseAmount?: number;
+  quoteAmount?: number;
+  basisPoint?: number;
   fixed: {
-    baseFee: string;
-    quoteFee: string;
+    baseFee?: number;
+    quoteFee?: number;
   };
 }
 
@@ -37,17 +37,18 @@ const columns = (searchText: string): ColumnsType<TableRowData> => {
     {
       title: 'Provider',
       dataIndex: ['provider', 'name'],
-      filteredValue: [searchText],
       sorter: (a, b) => a.provider.name.localeCompare(b.provider.name),
       sortDirections: ['ascend', 'descend'],
     },
     {
       title: 'Base Amount',
       dataIndex: 'baseAmount',
+      render: (baseAmount?: number) => baseAmount?.toString() ?? 'N/A',
     },
     {
       title: 'Quote Amount',
       dataIndex: 'quoteAmount',
+      render: (quoteAmount?: number) => quoteAmount?.toString() ?? 'N/A',
     },
   ];
 };
@@ -55,12 +56,15 @@ const columns = (searchText: string): ColumnsType<TableRowData> => {
 const TableComponent: React.FC<{ data: TableRowData[]; searchText: string }> = ({ data, searchText }) => (
   <Table
     columns={columns(searchText)}
+    locale={{
+      emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Loading data..." />,
+    }}
     dataSource={data.sort((a, b) => a.assetPair.localeCompare(b.assetPair))}
     expandable={{
       expandedRowRender: (record) => (
         <Col span={24}>
           <Row>
-            <Col xs={10} sm={8} md={6} lg={4}>
+            <Col xs={10} sm={8} md={6} lg={4} className="bold">
               Provider endpoint:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
@@ -68,35 +72,27 @@ const TableComponent: React.FC<{ data: TableRowData[]; searchText: string }> = (
             </Col>
           </Row>
           <Row>
-            <Col xs={10} sm={8} md={6} lg={4}>
-              Base percentage fee:
+            <Col xs={10} sm={8} md={6} lg={4} className="bold">
+              Relative fee:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
-              {record.basisPoint}
+              {`${record.basisPoint}%` ?? 'N/A'}
             </Col>
           </Row>
           <Row>
-            <Col xs={10} sm={8} md={6} lg={4}>
-              Quote percentage fee:
-            </Col>
-            <Col xs={14} sm={16} md={18} lg={20}>
-              {record.basisPoint}
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={10} sm={8} md={6} lg={4}>
+            <Col xs={10} sm={8} md={6} lg={4} className="bold">
               Base fixed fee:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
-              {record.fixed.baseFee}
+              {record.fixed.baseFee ?? 'N/A'}
             </Col>
           </Row>
           <Row>
-            <Col xs={10} sm={8} md={6} lg={4}>
+            <Col xs={10} sm={8} md={6} lg={4} className="bold">
               Quote fixed fee:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
-              {record.fixed.quoteFee}
+              {record.fixed.quoteFee ?? 'N/A'}
             </Col>
           </Row>
         </Col>
