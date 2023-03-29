@@ -9,12 +9,15 @@ export interface TableRowData {
     name: string;
     endpoint: string;
   };
-  baseAmount?: number;
-  quoteAmount?: number;
-  basisPoint?: number;
-  fixed: {
-    baseFee?: number;
-    quoteFee?: number;
+  baseAmount?: string;
+  quoteAmount?: string;
+  percentageFee?: {
+    baseAsset?: string;
+    quoteAsset?: string;
+  };
+  fixedFee: {
+    baseAsset?: string;
+    quoteAsset?: string;
   };
 }
 
@@ -73,10 +76,18 @@ const TableComponent: React.FC<{ data: TableRowData[]; searchText: string }> = (
           </Row>
           <Row>
             <Col xs={10} sm={8} md={6} lg={4} className="bold">
-              Relative fee:
+              Base relative fee:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
-              {`${record.basisPoint}%` ?? 'N/A'}
+              {record.percentageFee?.baseAsset ? `${record.percentageFee.baseAsset}%` : 'N/A'}
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={10} sm={8} md={6} lg={4} className="bold">
+              Quote relative fee:
+            </Col>
+            <Col xs={14} sm={16} md={18} lg={20}>
+              {record.percentageFee?.quoteAsset ? `${record.percentageFee.quoteAsset}%` : 'N/A'}
             </Col>
           </Row>
           <Row>
@@ -84,7 +95,7 @@ const TableComponent: React.FC<{ data: TableRowData[]; searchText: string }> = (
               Base fixed fee:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
-              {record.fixed.baseFee ?? 'N/A'}
+              {record.fixedFee.baseAsset ?? 'N/A'}
             </Col>
           </Row>
           <Row>
@@ -92,7 +103,7 @@ const TableComponent: React.FC<{ data: TableRowData[]; searchText: string }> = (
               Quote fixed fee:
             </Col>
             <Col xs={14} sm={16} md={18} lg={20}>
-              {record.fixed.quoteFee ?? 'N/A'}
+              {record.fixedFee.quoteAsset ?? 'N/A'}
             </Col>
           </Row>
         </Col>

@@ -17,3 +17,7 @@ export function sats2Fractional(sats: number, precision: number): number | undef
     console.error(err);
   }
 }
+
+export function toFixed(num?: number): string | undefined {
+  return num?.toFixed(8).replace(/\.?0+$/, '');
+}

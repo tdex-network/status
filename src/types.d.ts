@@ -5,15 +5,29 @@ export interface TDEXProvider {
   endpoint: string;
 }
 
-export interface TDEXMarket {
+export interface TDEXProviderWithVersion extends TDEXProvider {
+  version: 'v1' | 'v2';
+}
+
+export interface TDEXMarketV1 {
+  provider: TDEXProviderWithVersion;
   baseAsset: string;
+  baseAmount?: string;
   quoteAsset: string;
+  quoteAmount?: string;
   basisPoint?: string;
   fixed?: {
     baseFee: string;
     quoteFee: string;
   };
-  provider: TDEXProvider;
+}
+
+export interface TDEXMarketV2 {
+  provider: TDEXProviderWithVersion;
+  baseAsset: string;
   baseAmount?: string;
+  quoteAsset: string;
   quoteAmount?: string;
+  percentageFee?: { baseAsset: string; quoteAsset: string };
+  fixedFee?: { baseAsset: string; quoteAsset: string };
 }

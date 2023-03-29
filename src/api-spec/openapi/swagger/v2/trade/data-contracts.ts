@@ -124,6 +124,9 @@ export interface Tdexv2ProposeTradeRequest {
   market?: Tdexv2Market;
   type?: Tdexv2TradeType;
   swapRequest?: Tdexv2SwapRequest;
+  /** @format uint64 */
+  feeAmount?: string;
+  feeAsset?: string;
 }
 
 export interface Tdexv2ProposeTradeResponse {
@@ -195,13 +198,6 @@ export interface Tdexv2SwapRequest {
   assetR?: string;
   /** The proposer's unsigned transaction in PSET v2 format (base64 string) */
   transaction?: string;
-  /**
-   * The fee amount charged to the proposer by the provider.
-   * @format uint64
-   */
-  feeAmount?: string;
-  /** The asset hash of the fee charged to the proposer. */
-  feeAsset?: string;
   /**
    * The list of trader's unblinded inputs data, even in case they are
    * unconfidential.

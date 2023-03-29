@@ -8,7 +8,6 @@ let config: {
   explorerLiquidAPI: string;
 };
 
-const REGTEST_PROVIDER = 'http://localhost:9945';
 const DEFAULT_TOR_PROXY = 'https://proxy.tdex.network';
 const TDEX_REGISTRY_MAINNET = 'https://raw.githubusercontent.com/tdex-network/tdex-registry/master/registry.json';
 const TDEX_REGISTRY_TESTNET = 'https://raw.githubusercontent.com/tdex-network/tdex-registry/testnet/registry.json';
@@ -54,7 +53,6 @@ export {
   configProduction,
   DEFAULT_TOR_PROXY,
   mempoolExplorerEndpoints,
-  REGTEST_PROVIDER,
   TDEX_REGISTRY_MAINNET,
   TDEX_REGISTRY_TESTNET,
 };
